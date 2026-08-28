@@ -8,7 +8,7 @@ const rootEl = document.getElementById('root');
 if (rootEl) {
   createRoot(rootEl).render(
     <StrictMode>
-      <BrowserRouter>
+      <BrowserRouter basename="/SIH-2026-P2">
         <App />
       </BrowserRouter>
     </StrictMode>,
