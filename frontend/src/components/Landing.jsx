@@ -1,0 +1,699 @@
+import { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import {
+  CloudUploadOutlined,
+  RobotOutlined,
+  SafetyCertificateOutlined,
+  UserSwitchOutlined,
+  DeploymentUnitOutlined,
+  FileTextOutlined,
+  AppstoreOutlined,
+  DatabaseOutlined,
+  DashboardOutlined,
+  TeamOutlined,
+  ApiOutlined,
+  ArrowRightOutlined,
+  PlayCircleOutlined,
+  CheckCircleOutlined,
+  SyncOutlined,
+  ThunderboltOutlined,
+  GlobalOutlined,
+  AimOutlined,
+  RocketOutlined,
+  SlidersOutlined,
+  BarChartOutlined,
+  AuditOutlined
+} from '@ant-design/icons';
+import { Reveal, Stagger, Item, Counter, GrowBar, DrawLine, EASE } from './motion.jsx';
+
+const LANGS = [
+  ['हिन्दी', 'Hindi'], ['বাংলা', 'Bengali'], ['मराठी', 'Marathi'], ['தமிழ்', 'Tamil'],
+  ['తెలుగు', 'Telugu'], ['ಕನ್ನಡ', 'Kannada'], ['മലയാളം', 'Malayalam'], ['<ctrl42>ગુજરાતી', 'Gujarati'],
+  ['ਪੰਜਾਬੀ', 'Punjabi'], ['ଓଡ଼ିଆ', 'Odia'], ['English', 'English'],
+];
+
+const FEATURES = [
+  { icon: <FileTextOutlined />, title: 'Indic-first OCR', desc: 'PaddleOCR models decode faded ink, torn edges, and handwritten regional scripts across ancient revenue registers.' },
+  { icon: <AppstoreOutlined />, title: 'Layout Intelligence', desc: 'Deep layout segmentation reconstructs complex land forms, khasra tables, and key-value pairs with exact spatial alignment.' },
+  { icon: <DatabaseOutlined />, title: 'Structured Extraction', desc: 'Owner names, survey numbers, plot areas, and mutation history normalized into structured, queryable JSON schemas.' },
+  { icon: <DashboardOutlined />, title: 'Confidence Scoring', desc: 'Every single field carries a transparent AI confidence score so reviewers instantly know which records need human review.' },
+  { icon: <TeamOutlined />, title: 'Human-in-the-loop', desc: 'Low-confidence extractions auto-route to expert revenue officers with an immutable cryptographic audit trail of all edits.' },
+  { icon: <ApiOutlined />, title: 'Gov-ready APIs', desc: 'Seamless connectors for LRMS, DILRMP, and PostGIS spatial layers make state-level adoption frictionless and instant.' },
+];
+
+const STEPS = [
+  { icon: <CloudUploadOutlined />, step: '01', t: 'Intake & Ingest', d: 'Drop scanned registers, cadastral maps and legacy PDFs in 11 Indian languages up to 50MB.' },
+  { icon: <RobotOutlined />, step: '02', t: 'Neural Extraction', d: 'PaddleOCR + Indic NLP models extract handwriting, survey plot numbers and boundary coordinates.' },
+  { icon: <SafetyCertificateOutlined />, step: '03', t: 'Rule Validation', d: 'Automated validation engines catch format mismatches, duplicate khasras and area discrepancies.' },
+  { icon: <UserSwitchOutlined />, step: '04', t: 'Human Audit Gate', d: 'Uncertain extractions route to revenue officers with 1-click accept or side-by-side editing.' },
+  { icon: <DeploymentUnitOutlined />, step: '05', t: 'GIS Integration', d: 'Certified records sync directly into state LRMS, DILRMP, and PostGIS spatial databases.' },
+];
+
+const SAMPLE_DOCS = [
+  {
+    id: 'up_khatauni',
+    title: 'UP Khatauni Register (Hindi)',
+    file: 'khasra_register_2026.pdf',
+    fields: [
+      { label: 'Landowner Name', value: 'राजेश कुमार शर्मा', conf: 96 },
+      { label: 'Survey / Khasra No.', value: '45/2B · Khasra 123', conf: 98 },
+      { label: 'Plot Area (Hectares)', value: '2.4500 Hectares', conf: 92 },
+      { label: 'Village & Tehsil', value: 'रामपुर · सदर (Agra)', conf: 94 },
+    ]
+  },
+  {
+    id: 'mh_712',
+    title: 'Maharashtra 7/12 (Marathi)',
+    file: 'satbara_extract_pune.pdf',
+    fields: [
+      { label: 'Khatedar Name', value: 'सुनील बाळकृष्ण जोशी', conf: 97 },
+      { label: 'Gat / Survey Number', value: 'गट क्र. 88/1अ', conf: 95 },
+      { label: 'Pot Kharaba Area', value: '1.2000 Hectares', conf: 91 },
+      { label: 'Village & Taluka', value: 'हवेली · पुणे (Pune)', conf: 96 },
+    ]
+  },
+  {
+    id: 'tn_patta',
+    title: 'Tamil Nadu Patta (Tamil)',
+    file: 'patta_chitta_chennai.pdf',
+    fields: [
+      { label: 'Pattadhar Name', value: 'முருகன் கந்தசாமி', conf: 94 },
+      { label: 'Patta Number', value: 'பட்டா எண் 542', conf: 98 },
+      { label: 'Survey & Subdiv', value: 'புல எண் 104/3', conf: 93 },
+      { label: 'District & Taluk', value: 'தாம்பரம் · செங்கல்பட்டு', conf: 95 },
+    ]
+  }
+];
+
+const DISTRICT_BARS = [
+  { name: 'Agra', h: 88, count: 120, state: 'UP West' },
+  { name: 'Lucknow', h: 72, count: 98, state: 'UP Central' },
+  { name: 'Varanasi', h: 80, count: 76, state: 'UP East' },
+  { name: 'Kanpur', h: 58, count: 65, state: 'UP Central' },
+  { name: 'Prayagraj', h: 66, count: 54, state: 'UP East' },
+  { name: 'Meerut', h: 50, count: 42, state: 'UP West' },
+];
+
+const PALETTE = {
+  id: 'neon',
+  name: 'Neon Tech',
+  gradient: 'linear-gradient(135deg, #d9f203 0%, #bac313 100%)',
+  primary: '#d9f203',
+  primaryStrong: '#bac313',
+  primaryRgb: '217,242,3',
+  accent: '#405bf7',
+  accentRgb: '64,91,247',
+  accentSoft: '#e0e5ff',
+  tagBg: '#111111',
+  tagBorder: '#d9f203',
+  tagColor: '#d9f203',
+  chartActive: 'linear-gradient(135deg, #d9f203, #bac313)',
+  shadow: '0 8px 24px rgba(217,242,3,0.15)',
+};
+
+function OcrDemo({ P = PALETTE }) {
+  const [docIndex, setDocIndex] = useState(0);
+  const activeDoc = SAMPLE_DOCS[docIndex];
+  const CYCLE = activeDoc.fields.length + 3;
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => setStep((s) => (s + 1) % CYCLE), 650);
+    return () => clearInterval(timer);
+  }, [docIndex, CYCLE]);
+
+  const visible = Math.max(0, Math.min(step, activeDoc.fields.length));
+  const done = step >= activeDoc.fields.length;
+
+  return (
+    <div className="ocr-card" style={{ boxShadow: `0 25px 60px rgba(0,0,0,0.6), 0 0 35px rgba(${P.primaryRgb},0.18)` }}>
+      {/* Header with Switcher Tabs */}
+      <div className="ocr-head" style={{ padding: '12px 18px', background: 'rgba(15,23,42,0.95)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div className="ocr-dots"><span /><span /><span /></div>
+          <div style={{ display: 'flex', gap: 6 }}>
+            {SAMPLE_DOCS.map((doc, idx) => (
+              <button
+                key={doc.id}
+                onClick={() => { setDocIndex(idx); setStep(0); }}
+                style={{
+                  background: docIndex === idx ? `rgba(${P.primaryRgb},0.25)` : 'rgba(255,255,255,0.05)',
+                  border: `1px solid ${docIndex === idx ? P.primary : 'rgba(255,255,255,0.1)'}`,
+                  color: docIndex === idx ? P.primaryStrong : '#94A3B8',
+                  padding: '4px 10px',
+                  borderRadius: 6,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {doc.title.split(' ')[0]}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className={`ocr-status${done ? ' done-badge' : ''}`} style={{ fontSize: 11.5 }}>
+          {!done && <SyncOutlined spin style={{ color: P.primaryStrong }} />}
+          {done && <span style={{ color: P.accent, fontWeight: 900 }}>✓ Verified</span>}
+          {step === 0 ? 'Scanning paper…' : !done ? 'Extracting Indic text…' : '100% Extracted'}
+        </div>
+      </div>
+
+      {/* Interactive Scan Body */}
+      <div className="scan-body" style={{ minHeight: 250, padding: 20 }}>
+        {!done && <div className="scan-laser" />}
+        <div className="doc-lines" style={{ marginBottom: 16 }}>
+          <i /><i /><i /><i />
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {activeDoc.fields.slice(0, visible).map((f) => (
+            <motion.div
+              key={f.label}
+              className="field-row"
+              initial={{ opacity: 0, y: 12, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.35, ease: EASE }}
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                padding: '10px 14px',
+                borderRadius: 10
+              }}
+            >
+              <span className="field-label" style={{ color: '#94A3B8', fontSize: 12 }}>{f.label}</span>
+              <span className="field-value" style={{ color: '#ffffff', fontWeight: 800, fontSize: 14 }}>{f.value}</span>
+              <span className="field-conf" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span className="conf-bar" style={{ width: 60, height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 99 }}>
+                  <motion.b
+                    initial={{ width: 0 }}
+                    animate={{ width: `${f.conf}%` }}
+                    transition={{ duration: 0.5, ease: EASE }}
+                    style={{ background: P.gradient }}
+                  />
+                </span>
+                <span className="conf-num" style={{ color: P.accent, fontWeight: 800, fontSize: 12, fontFamily: 'monospace' }}>
+                  {f.conf}%
+                </span>
+              </span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Hero({ onLaunch, P = PALETTE }) {
+  const stageRef = useRef(null);
+  const rotX = useSpring(0, { stiffness: 110, damping: 16 });
+  const rotY = useSpring(0, { stiffness: 110, damping: 16 });
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 700], [0, 120]);
+  const heroFade = useTransform(scrollY, [0, 550], [1, 0]);
+
+  return (
+    <section className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          opacity: 0.4,
+          pointerEvents: 'none',
+          mixBlendMode: 'normal',
+          zIndex: 0,
+          filter: 'grayscale(100%) contrast(120%)'
+        }}
+      >
+        {/* Working MDN sample video. You can replace this with your own downloaded MP4 (e.g. src="/land-scan.mp4") */}
+        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+      </video>
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent, #0f172a 90%)', pointerEvents: 'none', zIndex: 1 }} />
+      <div className="orb orb-violet" style={{ background: P.primary, opacity: 0.15, zIndex: 1 }} />
+      <div className="orb orb-cyan" style={{ background: P.accent, opacity: 0.10, zIndex: 1 }} />
+      <div className="orb orb-mint" style={{ background: P.primaryStrong, opacity: 0.10, zIndex: 1 }} />
+      <div className="grid-bg" style={{ opacity: 0.5, zIndex: 1 }} />
+
+      <motion.div style={{ y: heroY, opacity: heroFade, zIndex: 2, position: 'relative' }} className="hero-core">
+        <Reveal y={18}>
+          <span className="chip" style={{ background: `rgba(${P.primaryRgb},0.15)`, borderColor: `rgba(${P.primaryRgb},0.35)`, color: P.primaryStrong }}>
+            <span className="dot" style={{ background: P.primary, boxShadow: `0 0 10px ${P.primary}` }} /> 
+            Smart India Hackathon 2026 • Land Record Digitization OS
+          </span>
+        </Reveal>
+
+        <motion.h1 
+          className="hero-title" 
+          initial={{ opacity: 0, y: 30 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.85, delay: 0.1, ease: EASE }}
+          style={{ fontSize: 'clamp(48px, 8vw, 86px)', lineHeight: 0.95, textTransform: 'uppercase', letterSpacing: '-0.04em' }}
+        >
+          <div style={{ display: 'block' }}>Scan.</div>
+          <div style={{ display: 'block' }}>Digitize.</div>
+          <div style={{ display: 'block' }}><span className="grad-text" style={{ fontStyle: 'italic' }}>Verify.</span></div>
+        </motion.h1>
+
+        <motion.p 
+          className="hero-sub" 
+          initial={{ opacity: 0, y: 22 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.85, delay: 0.25, ease: EASE }}
+        >
+          Bhoomi AI transforms centuries of handwritten registers, torn cadastral maps, and legacy PDFs into verified digital records with Indic OCR, confidence scoring, and human-in-the-loop audit verification.
+        </motion.p>
+
+        <motion.div 
+          className="hero-ctas" 
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.85, delay: 0.38, ease: EASE }}
+        >
+          <button className="btn-primary-light" onClick={onLaunch} style={{ height: 48, fontSize: 15, paddingInline: 28 }}>
+            Launch Console <ArrowRightOutlined />
+          </button>
+          <a className="btn-ghost-light" href="#analytics" style={{ height: 48, fontSize: 15, paddingInline: 24 }}>
+            <SlidersOutlined /> Interactive Showcase
+          </a>
+        </motion.div>
+
+        {/* 3D Interactive OCR Demonstration */}
+        <motion.div
+          className="hero-stage"
+          ref={stageRef}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.0, delay: 0.5, ease: EASE }}
+          onMouseMove={(e) => {
+            const r = e.currentTarget.getBoundingClientRect();
+            rotY.set(((e.clientX - r.left) / r.width - 0.5) * 8);
+            rotX.set(-((e.clientY - r.top) / r.height - 0.5) * 8);
+          }}
+          onMouseLeave={() => { rotX.set(0); rotY.set(0); }}
+          style={{ perspective: 1400 }}
+        >
+          <motion.div style={{ rotateX: rotX, rotateY: rotY, transformStyle: 'preserve-3d' }}>
+            <OcrDemo P={P} />
+          </motion.div>
+
+          <div className="float-chip fc-1" style={{ border: `1px solid rgba(${P.accentRgb},0.3)`, background: 'rgba(15,23,42,0.92)' }}>
+            <span className="fc-icon" style={{ background: `rgba(${P.accentRgb},0.2)`, color: P.accent, fontWeight: 900 }}>✓</span>
+            Field accuracy up to <b style={{ color: P.accent }}>&nbsp;98.4%</b>
+          </div>
+          <div className="float-chip fc-2" style={{ border: `1px solid rgba(${P.primaryRgb},0.3)`, background: 'rgba(15,23,42,0.92)' }}>
+            <span className="fc-icon" style={{ background: `rgba(${P.primaryRgb},0.2)`, color: P.primaryStrong }}>⚡</span>
+            Processed in <b style={{ color: P.primaryStrong }}>&nbsp;under 30 sec</b>
+          </div>
+        </motion.div>
+
+        {/* Hero Quick Statistics */}
+        <Stagger className="hero-stats" gap={0.1}>
+          {[
+            { num: <Counter to={11} suffix="+" />, label: 'Indic regional languages' },
+            { num: <Counter to={98.4} decimals={1} suffix="%" />, label: 'Peak OCR field accuracy' },
+            { num: <Counter to={30} prefix="<" suffix="s" />, label: 'Average extraction time' },
+            { num: <Counter to={100} suffix="%" />, label: 'Audit trail coverage' },
+          ].map((s) => (
+            <Item key={s.label}>
+              <div className="hstat" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div className="hstat-num grad-text">{s.num}</div>
+                <div className="hstat-label">{s.label}</div>
+              </div>
+            </Item>
+          ))}
+        </Stagger>
+      </motion.div>
+    </section>
+  );
+}
+
+function ShowcaseSection({ onLaunch, P = PALETTE }) {
+  const [activeTab, setActiveTab] = useState('throughput');
+  const [selectedDistrict, setSelectedDistrict] = useState(DISTRICT_BARS[0]);
+
+  return (
+    <section className="section showcase" id="analytics" style={{ position: 'relative' }}>
+      <div className="section-inner">
+        <Reveal>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+            <div>
+              <div className="sec-tag" style={{ background: P.tagBg, borderColor: P.tagBorder, color: P.tagColor }}>
+                Interactive Command Center
+              </div>
+              <h2 className="sec-title" style={{ marginTop: 12 }}>
+                Real-time telemetry your collectors can <span className="serif-accent" style={{ background: P.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>control.</span>
+              </h2>
+              <p className="sec-desc">
+                Switch between different analytical modes. High-contrast data visualizers for the professional executive.
+              </p>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* Interactive Mode Selector Tabs */}
+        <div style={{ display: 'flex', gap: 12, marginTop: 22, marginBottom: 24, flexWrap: 'wrap' }}>
+          {[
+            { id: 'throughput', label: 'District Throughput Radar', icon: <BarChartOutlined /> },
+            { id: 'ocr_inspector', label: 'Neural Bounding Box Inspector', icon: <AimOutlined /> },
+            { id: 'audit_gate', label: 'Human-in-the-Loop Gate', icon: <AuditOutlined /> },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              style={{
+                background: activeTab === tab.id ? P.gradient : 'rgba(255,255,255,0.05)',
+                color: activeTab === tab.id ? '#ffffff' : '#94A3B8',
+                border: `1px solid ${activeTab === tab.id ? P.primary : 'rgba(255,255,255,0.1)'}`,
+                padding: '12px 22px',
+                borderRadius: 12,
+                fontWeight: 750,
+                fontSize: 13.5,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                transition: 'all 0.25s var(--ease-spring)',
+                boxShadow: activeTab === tab.id ? P.shadow : 'none'
+              }}
+            >
+              {tab.icon} {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Showcase Interactive Card Panel */}
+        <Reveal delay={0.1}>
+          <div className="showcase-panel" style={{ border: `1px solid ${P.primary}33`, minHeight: 460, boxShadow: `0 0 0 1px ${P.primary}14, 0 20px 40px rgba(0,0,0,0.22)`, transition: 'all 0.3s' }}>
+            {activeTab === 'throughput' && (
+              <>
+                <div className="showcase-copy">
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: P.primaryStrong, fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: 99, background: P.primary, boxShadow: `0 0 8px ${P.primary}` }} /> 
+                    Live Pilot Telemetry • {P.name}
+                  </div>
+                  <h3>District-wise velocity, accuracy, and SLA queues.</h3>
+                  <p>
+                    Administrators track ingestion throughput across every tehsil while verifiers clear low-confidence flags with zero backlog.
+                  </p>
+
+                  <div className="kpi-list">
+                    {[
+                      [P.primary, `Selected District: ${selectedDistrict.name} (${selectedDistrict.count} records digested)`],
+                      [P.accent, '94.8% mean extraction confidence across UP zone'],
+                      [P.primary, '46 fields queued for expert human verification'],
+                    ].map(([c, txt]) => (
+                      <div className="kpi-row" key={txt} style={{ borderColor: `${c}22` }}>
+                        <span className="kpi-dot" style={{ background: c, boxShadow: `0 0 10px ${c}` }} />
+                        {txt}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ marginTop: 24 }}>
+                    <button onClick={onLaunch} style={{ height: 42, paddingInline: 22, fontSize: 13.5, borderRadius: 12, fontWeight: 800, color: '#fff', background: P.gradient, border: `1px solid ${P.primary}`, boxShadow: P.shadow, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                      Launch Analytics Dashboard →
+                    </button>
+                  </div>
+                </div>
+
+                <div className="chart-mock" style={{ background: 'rgba(9,13,22,0.85)', padding: 24, borderRadius: 20, border: `1px solid ${P.primary}1A` }}>
+                  <div className="chart-mock-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ color: '#F1F5F9', fontWeight: 800, fontSize: 14 }}>District Digitization Velocity</span>
+                    <span style={{ color: P.primaryStrong, fontWeight: 800, background: `${P.primary}18`, padding: '2px 8px', borderRadius: 99, border: `1px solid ${P.primary}30` }}>+18.2% surge</span>
+                  </div>
+                  
+                  {/* Interactive District Bar Graph */}
+                  <div className="bars" style={{ height: 180, marginTop: 14, display: 'flex', alignItems: 'flex-end', gap: 8, justifyContent: 'space-between' }}>
+                    {DISTRICT_BARS.map((b) => (
+                      <div 
+                        className="bar-col" 
+                        key={b.name} 
+                        onClick={() => setSelectedDistrict(b)}
+                        style={{ cursor: 'pointer', opacity: selectedDistrict.name === b.name ? 1 : 0.65, transition: 'all 0.2s ease', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%', flex: 1 }}
+                      >
+                        <span style={{ fontSize: 11, color: selectedDistrict.name === b.name ? P.primaryStrong : '#9e9e9e', fontWeight: 800, marginBottom: 4 }}>
+                          {b.count}
+                        </span>
+                        <div 
+                          style={{ 
+                            width: '100%', 
+                            height: `${b.h}%`, 
+                            background: selectedDistrict.name === b.name ? P.gradient : '#333333',
+                            borderRadius: 6,
+                            transition: 'all 0.3s ease'
+                          }} 
+                        />
+                        <span className="bar-label" style={{ color: selectedDistrict.name === b.name ? '#ffffff' : '#9e9e9e', fontWeight: 750, marginTop: 6, fontSize: 11, textAlign: 'center' }}>
+                          {b.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {activeTab === 'ocr_inspector' && (
+              <>
+                <div className="showcase-copy">
+                  <div style={{ color: P.primaryStrong, fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+                    Neural Bounding Box AI
+                  </div>
+                  <h3>Multi-layered spatial layout reconstruction.</h3>
+                  <p>
+                    Deep learning segmentation engines map tabular boundaries, khasra columns, and landowner rows directly on scanned raster images.
+                  </p>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 16 }}>
+                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: 12, borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
+                      <div style={{ color: P.primaryStrong, fontWeight: 800, fontSize: 16 }}>0.04s</div>
+                      <div style={{ color: '#94A3B8', fontSize: 11.5 }}>Layout Inference</div>
+                    </div>
+                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: 12, borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
+                      <div style={{ color: P.accent, fontWeight: 800, fontSize: 16 }}>99.2%</div>
+                      <div style={{ color: '#94A3B8', fontSize: 11.5 }}>Table IoU Precision</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(9,13,22,0.85)', padding: 20, borderRadius: 20, border: `1px solid ${P.primary}33`, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94A3B8', fontSize: 12 }}>
+                    <span>Spatial Bounding Box Overlay</span>
+                    <span style={{ color: P.accent, fontWeight: 700 }}>4 Zones Detected</span>
+                  </div>
+                  <div style={{ background: '#0F172A', border: `1.5px solid ${P.primary}`, padding: 16, borderRadius: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: 6 }}>
+                      <span style={{ color: P.primaryStrong, fontSize: 11.5, fontWeight: 700 }}>BBox [120, 45, 380, 85]</span>
+                      <span style={{ color: P.accent, fontSize: 11.5 }}>Conf 98%</span>
+                    </div>
+                    <div style={{ color: '#ffffff', fontWeight: 800, fontSize: 15 }}>खातेदार: राजेश कुमार शर्मा</div>
+                    <div style={{ color: '#94A3B8', fontSize: 12 }}>खसरा सं. 45/2B • क्षेत्रफल: 2.45 हे.</div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {activeTab === 'audit_gate' && (
+              <>
+                <div className="showcase-copy">
+                  <div style={{ color: P.accent, fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+                    Human Verification Chamber
+                  </div>
+                  <h3>Instant side-by-side audit resolution.</h3>
+                  <p>
+                    When handwriting confidence dips below 80%, fields are highlighted in yellow and routed to district verifiers with one-click approval.
+                  </p>
+                  <div style={{ marginTop: 20 }}>
+                    <button onClick={onLaunch} style={{ height: 42, paddingInline: 22, fontSize: 13.5, borderRadius: 12, fontWeight: 800, color: '#fff', background: P.gradient, border: `1px solid ${P.primary}`, boxShadow: P.shadow, cursor: 'pointer' }}>
+                      Test Verification Station →
+                    </button>
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(9,13,22,0.85)', padding: 20, borderRadius: 20, border: `1px solid ${P.primary}33`, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  <div style={{ fontSize: 12, color: '#94A3B8', fontWeight: 700 }}>Live Review Simulation</div>
+                  <div style={{ background: `rgba(${P.primaryRgb},0.1)`, border: `1px solid ${P.primary}`, padding: 14, borderRadius: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontSize: 11, color: P.primaryStrong, fontWeight: 750 }}>FLAGGED: Khasra Plot No.</div>
+                      <div style={{ fontSize: 14, fontWeight: 800, color: '#fff', marginTop: 2 }}>123/4A (Confidence 78%)</div>
+                    </div>
+                    <span style={{ background: P.accent, color: '#fff', padding: '6px 12px', borderRadius: 8, fontSize: 11, fontWeight: 800 }}>
+                      One-Click Verify
+                    </span>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+export default function Landing({ onLaunch }) {
+  const [scrolled, setScrolled] = useState(false);
+  const P = PALETTE;
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <div className="landing">
+      {/* Sleek Floating Navbar */}
+      <nav className={`land-nav${scrolled ? ' scrolled' : ''}`}>
+        <a className="brand-lockup" href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+          <span className="brand-mark" style={{ background: P.primary }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M7 4h8a3 3 0 0 1 3 3v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4z" stroke="#fff" strokeWidth="2" strokeLinejoin="round" />
+              <path d="M10 9.5h5M10 13h5M10 16.5h3" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </span>
+          <span>
+            <span className="brand-name">Bhoomi AI</span>
+            <div className="brand-sub">Land Record OS</div>
+          </span>
+        </a>
+
+        <div className="nav-links">
+          <a className="nav-link" href="#platform">Platform</a>
+          <a className="nav-link" href="#pipeline">Pipeline</a>
+          <a className="nav-link" href="#analytics">Interactive Showcase</a>
+          <a className="nav-link" href="#integrations">Integrations</a>
+        </div>
+
+        <button className="nav-cta" onClick={onLaunch} style={{ background: P.gradient, borderColor: P.primary }}>
+          Open Console <ArrowRightOutlined />
+        </button>
+      </nav>
+
+      {/* Hero Section */}
+      <Hero onLaunch={onLaunch} P={P} />
+
+      {/* Indic Multilingual Marquee */}
+      <div className="marquee-wrap">
+        <div className="marquee-track">
+          {[...LANGS, ...LANGS].map(([native, eng], i) => (
+            <span className="marquee-item" key={`${eng}-${i}`}>
+              {native} <em>{eng}</em>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Platform Features Grid */}
+      <section className="section" id="platform">
+        <div className="section-inner">
+          <Reveal>
+            <div className="sec-tag" style={{ background: P.tagBg, borderColor: P.tagBorder, color: P.tagColor }}>The Platform</div>
+            <h2 className="sec-title">
+              Everything a revenue department needs, <span className="serif-accent" style={{ background: P.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>nothing it doesn't.</span>
+            </h2>
+            <p className="sec-desc">
+              From dusty registers at the tehsil office to verified records in the state database — one pipeline handles intake, understanding, validation, and GIS verification end-to-end.
+            </p>
+          </Reveal>
+
+          <Stagger className="feat-grid" gap={0.08}>
+            {FEATURES.map((f, i) => (
+              <Item key={f.title}>
+                <div className="feat-card" style={{ '--feat-bg': `rgba(${P.primaryRgb},0.12)`, '--feat-fg': i % 2 ? P.accent : P.primary }}>
+                  <div className="feat-icon">{f.icon}</div>
+                  <div className="feat-title">{f.title}</div>
+                  <p className="feat-desc" style={{ margin: 0 }}>{f.desc}</p>
+                </div>
+              </Item>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* 5-Step Process Pipeline */}
+      <section className="section" id="pipeline" style={{ paddingTop: 40 }}>
+        <div className="section-inner">
+          <Reveal>
+            <div className="sec-tag" style={{ background: P.tagBg, borderColor: P.tagBorder, color: P.tagColor }}>How it works</div>
+            <h2 className="sec-title">
+              From faded paper to <span className="serif-accent" style={{ background: P.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>verified data</span> in five steps.
+            </h2>
+          </Reveal>
+          <Stagger className="pipeline" gap={0.12}>
+            {STEPS.map((s, i) => (
+              <Item key={s.t}>
+                <div className="pipe-step">
+                  <div className="pipe-rail">
+                    <div className="pipe-node" style={{ color: i % 2 ? P.accent : P.primary }}>{s.icon}</div>
+                    <DrawLine delay={0.3 + i * 0.1} />
+                  </div>
+                  <div className="pipe-k">Step {s.step}</div>
+                  <div className="pipe-t">{s.t}</div>
+                  <p className="pipe-d" style={{ margin: 0 }}>{s.d}</p>
+                </div>
+              </Item>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* Interactive Showcase Section */}
+      <ShowcaseSection onLaunch={onLaunch} P={P} />
+
+      {/* Connected Integrations Strip */}
+      <section className="section" id="integrations" style={{ paddingBottom: 60 }}>
+        <div className="section-inner">
+          <Reveal>
+            <div className="sec-tag" style={{ background: P.tagBg, borderColor: P.tagBorder, color: P.tagColor }}>Government Integrations</div>
+            <h2 className="sec-title" style={{ fontSize: 'clamp(28px, 3.6vw, 44px)' }}>
+              Plugs straight into the systems you already run.
+            </h2>
+          </Reveal>
+          <Stagger className="logo-strip" gap={0.07}>
+            {['DILRMP', 'LRMS', 'PostGIS Spatial Layer', 'Bhulekh UP', 'Bhu-Naksha GIS', 'REST Webhooks'].map((n) => (
+              <Item key={n}>
+                <span className="sys-pill" style={{ borderColor: `rgba(${P.primaryRgb},0.2)` }}>
+                  <span className="sys-dot" style={{ background: P.primary }} /> <b>{n}</b> · Connected
+                </span>
+              </Item>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* Final Call to Action */}
+      <section className="cta-final">
+        <div className="cta-ring" />
+        <div className="cta-ring r2" />
+        <div className="cta-ring r3" />
+        <Reveal>
+          <h2>
+            The paperwork era ends <span className="serif-accent" style={{ background: P.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>here.</span>
+          </h2>
+          <p>Open the console and watch a handwritten register become a verified digital record.</p>
+          <div style={{ marginTop: 36 }}>
+            <button className="btn-primary-light" onClick={onLaunch} style={{ height: 48, paddingInline: 32, fontSize: 16, background: P.gradient, border: `1px solid ${P.primary}`, boxShadow: P.shadow }}>
+              Launch Console <ArrowRightOutlined />
+            </button>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Footer */}
+      <footer className="land-footer">
+        <span>Bhoomi AI — built for Smart India Hackathon 2026</span>
+        <span>Indic OCR • NLP • Human-in-the-loop • GIS Spatial Data</span>
+        <a href="https://www.sih.gov.in" target="_blank" rel="noreferrer">sih.gov.in ↗</a>
+      </footer>
+    </div>
+  );
+}
