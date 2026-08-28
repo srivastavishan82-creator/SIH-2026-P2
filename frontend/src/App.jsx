@@ -46,7 +46,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const rawPath = location.pathname.replace(/^\/SIH-2026-Prototype\/?/, '').replace(/^\//, '');
+  const rawPath = location.pathname.replace(/^\/SIH-2026-P2\/?/, '').replace(/^\/SIH-2026-Prototype\/?/, '').replace(/^\//, '');
   const currentPath = !rawPath || rawPath === 'landing' ? 'landing' : rawPath;
   const meta = routeMeta[currentPath] || routeMeta.dashboard;
 
