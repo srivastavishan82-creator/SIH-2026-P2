@@ -107,7 +107,7 @@ function UploadDocument() {
                 {n:'bhu_naksha_045.jpg', t:'Map • 4.1 MB', c:'#4F46E5'},
                 {n:'sale_deed_2025.pdf', t:'Deed • 1.8 MB', c:'#94A3B8'},
               ].map(s=>(
-                <div key={s.n} onClick={simulateProcessing} style={{background:'#F8FAFC', border:'1px solid #E2E8F0', borderRadius:10, padding:'8px 10px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+                <div key={s.n} className="mobile-black-card" onClick={simulateProcessing} style={{background:'#F8FAFC', border:'1px solid #E2E8F0', borderRadius:10, padding:'8px 10px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
                   <div><div style={{fontSize:12, fontWeight:800, color:'#0F172A'}}>{s.n}</div><div style={{fontSize:11, color:'#64748B'}}>{s.t}</div></div>
                   <span style={{width:8, height:8, borderRadius:999, background:s.c}} />
                 </div>
@@ -138,27 +138,27 @@ function UploadDocument() {
                   <div style={{color:'#6b6b6b', fontSize:10, marginTop:4}}>queue 0 pending confidence gate less than 80 percent to verification</div>
                 </div>
                 <div style={{display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8}}>
-                  <div style={{background:'#F8FAFC', border:'1px solid #E2E8F0', borderRadius:10, padding:'10px 12px', textAlign:'center'}}>
+                  <div className="mobile-black-card" style={{background:'#F8FAFC', border:'1px solid #E2E8F0', borderRadius:10, padding:'10px 12px', textAlign:'center'}}>
                     <div style={{fontSize:11, fontWeight:700, color:'#64748B', letterSpacing:'0.05em'}}>TODAY</div>
                     <div style={{fontSize:16, fontWeight:900, color:'#0F172A', marginTop:2}}>413</div>
                     <div style={{fontSize:10, color:'#94A3B8'}}>files ingested</div>
                   </div>
-                  <div style={{background:'#F8FAFC', border:'1px solid #E2E8F0', borderRadius:10, padding:'10px 12px', textAlign:'center'}}>
+                  <div className="mobile-black-card" style={{background:'#F8FAFC', border:'1px solid #E2E8F0', borderRadius:10, padding:'10px 12px', textAlign:'center'}}>
                     <div style={{fontSize:11, fontWeight:700, color:'#64748B', letterSpacing:'0.05em'}}>AVG</div>
                     <div style={{fontSize:16, fontWeight:900, color:'#854D0E'}}>4.2s</div>
                     <div style={{fontSize:10, color:'#94A3B8'}}>per document</div>
                   </div>
-                  <div style={{background:'#FEF9C3', border:'1px solid #FDE68A', borderRadius:10, padding:'10px 12px', textAlign:'center'}}>
+                  <div className="mobile-black-card" style={{background:'#FEF9C3', border:'1px solid #FDE68A', borderRadius:10, padding:'10px 12px', textAlign:'center'}}>
                     <div style={{fontSize:11, fontWeight:700, color:'#92400E', letterSpacing:'0.05em'}}>SUCCESS</div>
                     <div style={{fontSize:16, fontWeight:900, color:'#854D0E', marginTop:2}}>98.2%</div>
                     <div style={{fontSize:10, color:'#92400E'}}>auto pass</div>
                   </div>
                 </div>
-                <div style={{background:'#FFFFFF', border:'1px solid #E2E8F0', borderRadius:10, padding:12}}>
+                <div className="mobile-black-card" style={{background:'#FFFFFF', border:'1px solid #E2E8F0', borderRadius:10, padding:12}}>
                   <div style={{fontSize:11, fontWeight:800, color:'#0F172A', letterSpacing:'0.06em', marginBottom:8, display:'flex', alignItems:'center', gap:6}}><ExperimentOutlined style={{color:'#854D0E', fontSize:11}}/> PIPELINE PREVIEW</div>
                   <div style={{display:'flex', gap:6, alignItems:'center'}}>
                     {steps.map((s,i)=>(
-                      <div key={s.title} style={{flex:1, background: i===0 ? '#0B0B0B' : '#F8FAFC', border:`1px solid ${i===0 ? '#1E293B' : '#E2E8F0'}`, borderRadius:8, padding:'8px 6px', textAlign:'center'}}>
+                      <div key={s.title} className="mobile-black-card" style={{flex:1, background: i===0 ? '#0B0B0B' : '#F8FAFC', border:`1px solid ${i===0 ? '#1E293B' : '#E2E8F0'}`, borderRadius:8, padding:'8px 6px', textAlign:'center'}}>
                         <div style={{fontSize:10, fontWeight:800, color: i===0 ? '#d9f203' : '#0F172A'}}>{s.title}</div>
                         <div style={{fontSize:10, color: i===0 ? '#94A3B8' : '#64748B', marginTop:2}}>{s.desc}</div>
                       </div>

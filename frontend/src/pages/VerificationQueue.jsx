@@ -121,13 +121,13 @@ function VerificationQueue() {
             
             {active ? (
               <div style={{display:'flex', flexDirection:'column', gap:16, flex:1, overflow:'auto', paddingRight: 4}}>
-                <div style={{background:'#F8FAFC', border:'1px solid #E2E8F0', borderRadius:10, padding:16}}>
+                <div className="mobile-black-card" style={{background:'#F8FAFC', border:'1px solid #E2E8F0', borderRadius:10, padding:16}}>
                   <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom: 12}}>
                     <div style={{fontSize:12, color:'#64748B'}}>{active.district} • {active.type}</div>
                     <Tag style={{margin:0, borderRadius:999, fontWeight:800, background: active.confidence >= 80 ? '#ECFDF5' : '#FFFBEB', color: active.confidence >= 80 ? '#047857' : '#D97706', border: active.confidence >= 80 ? '1px solid #A7F3D0' : '1px solid #FDE68A'}}>{active.confidence}% CONF</Tag>
                   </div>
                   <div style={{fontWeight:800, color:'#0F172A', fontSize: 15}}>{active.field}</div>
-                  <div style={{fontFamily:'JetBrains Mono,monospace', fontSize: 14, background:'#ffffff', border:'1px solid #E2E8F0', padding:'10px 14px', borderRadius:8, fontWeight:700, color:'#0F172A', marginTop: 8}}>{active.value}</div>
+                  <div className="mobile-black-card" style={{fontFamily:'JetBrains Mono,monospace', fontSize: 14, background:'#ffffff', border:'1px solid #E2E8F0', padding:'10px 14px', borderRadius:8, fontWeight:700, color:'#0F172A', marginTop: 8}}>{active.value}</div>
                 </div>
 
                 <Form layout="vertical">
