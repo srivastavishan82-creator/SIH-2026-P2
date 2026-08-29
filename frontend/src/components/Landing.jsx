@@ -210,16 +210,17 @@ function Hero({ onLaunch, P = PALETTE }) {
   const rotX = useSpring(0, { stiffness: 110, damping: 16 });
   const rotY = useSpring(0, { stiffness: 110, damping: 16 });
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 700], [0, 120]);
+  const heroY = useTransform(scrollY, [0, 700], [0, 100]);
   const heroFade = useTransform(scrollY, [0, 550], [1, 0]);
 
   return (
-    <section className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
+    <section className="hero" style={{ position: 'relative', overflow: 'hidden', transform: 'translate3d(0,0,0)', willChange: 'transform' }}>
       <video
         autoPlay
         loop
         muted
         playsInline
+        preload="auto"
         style={{
           position: 'absolute',
           top: 0,
@@ -227,23 +228,23 @@ function Hero({ onLaunch, P = PALETTE }) {
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          opacity: 0.4,
+          opacity: 0.35,
           pointerEvents: 'none',
-          mixBlendMode: 'normal',
           zIndex: 0,
-          filter: 'grayscale(100%) contrast(120%)'
+          transform: 'translate3d(0,0,0)',
+          willChange: 'opacity',
+          backfaceVisibility: 'hidden'
         }}
       >
-        {/* Working MDN sample video. You can replace this with your own downloaded MP4 (e.g. src="/land-scan.mp4") */}
         <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
       </video>
-      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent, #0f172a 90%)', pointerEvents: 'none', zIndex: 1 }} />
-      <div className="orb orb-violet" style={{ background: P.primary, opacity: 0.15, zIndex: 1 }} />
-      <div className="orb orb-cyan" style={{ background: P.accent, opacity: 0.10, zIndex: 1 }} />
-      <div className="orb orb-mint" style={{ background: P.primaryStrong, opacity: 0.10, zIndex: 1 }} />
-      <div className="grid-bg" style={{ opacity: 0.5, zIndex: 1 }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(9,13,22,0.7) 0%, #090d16 95%)', pointerEvents: 'none', zIndex: 1 }} />
+      <div className="orb orb-violet" style={{ background: P.primary, opacity: 0.12, zIndex: 1 }} />
+      <div className="orb orb-cyan" style={{ background: P.accent, opacity: 0.08, zIndex: 1 }} />
+      <div className="orb orb-mint" style={{ background: P.primaryStrong, opacity: 0.08, zIndex: 1 }} />
+      <div className="grid-bg" style={{ opacity: 0.4, zIndex: 1 }} />
 
-      <motion.div style={{ y: heroY, opacity: heroFade, zIndex: 2, position: 'relative' }} className="hero-core">
+      <motion.div style={{ y: heroY, opacity: heroFade, zIndex: 2, position: 'relative', willChange: 'transform, opacity' }} className="hero-core">
         <Reveal y={18}>
           <span className="chip" style={{ background: `rgba(${P.primaryRgb},0.15)`, borderColor: `rgba(${P.primaryRgb},0.35)`, color: P.primaryStrong }}>
             <span className="dot" style={{ background: P.primary, boxShadow: `0 0 10px ${P.primary}` }} /> 

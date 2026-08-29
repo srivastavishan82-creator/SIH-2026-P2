@@ -96,7 +96,13 @@
 
 * { box-sizing: border-box; }
 *::before, *::after { box-sizing: border-box; }
-html { font-size: 14px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+html { 
+  font-size: 14px; 
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale; 
+  text-rendering: optimizeLegibility; 
+  scroll-behavior: smooth;
+}
 body {
   margin: 0; padding: 0;
   font-family: var(--font-body);
@@ -105,6 +111,7 @@ body {
   line-height: 1.5;
   overflow-x: hidden;
   min-height: 100vh;
+  -webkit-overflow-scrolling: touch;
 }
 ::selection { background: #d9f203; color: #111111; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
