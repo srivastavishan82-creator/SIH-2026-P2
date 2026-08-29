@@ -75,8 +75,8 @@ function Profile({ compact = false }) {
     <div className="animate-fade-in-up" style={{ display: 'flex', flexDirection: 'column', gap: compact ? 14 : 20 }}>
       {/* EXECUTIVE HEADER BANNER */}
       <Card bordered={false} className="saffron-card" style={{ borderRadius: 20, padding: 0, border: '1px solid #E2E8F0' }} bodyStyle={{ padding: 0 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 20px', borderBottom: '1px solid #F1F5F9', background: '#F8FAFC' }}>
-          <Space size={8}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 20px', borderBottom: '1px solid #F1F5F9', background: '#F8FAFC', flexWrap: 'wrap', gap: 10 }}>
+          <Space size={8} wrap>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--gradient-saffron)', color: '#111111', borderRadius: 999, padding: '4px 12px', fontSize: 11, fontWeight: 850, boxShadow: 'var(--shadow-saffron)' }}>
               <span style={{ width: 8, height: 8, borderRadius: 999, background: '#111111' }} className="pulse-dot" /> 
               GOVERNMENT PASSPORT & PROFILE
@@ -85,7 +85,7 @@ function Profile({ compact = false }) {
               <SafetyCertificateOutlined style={{ color: '#10B981' }} /> AUDIT-TRAILED ACCESS
             </span>
           </Space>
-          <Space size={8}>
+          <Space size={8} wrap>
             <Tag style={{ margin: 0, background: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0', fontWeight: 800, borderRadius: 999, fontSize: 11 }}>
               EMP ID: {profile.employeeId}
             </Tag>
@@ -168,12 +168,12 @@ function Profile({ compact = false }) {
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {activity.map((act, i) => (
-            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#FAF9F6', borderRadius: 10, border: '1px solid #EAE1D2' }}>
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#FAF9F6', borderRadius: 10, border: '1px solid #EAE1D2', flexWrap: 'wrap', gap: 8 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ width: 8, height: 8, borderRadius: 999, background: '#10B981' }} />
+                <span style={{ width: 8, height: 8, borderRadius: 999, background: '#10B981', flexShrink: 0 }} />
                 <span style={{ fontWeight: 750, color: '#0F172A', fontSize: 13 }}>{act.action}</span>
               </div>
-              <Space size={12}>
+              <Space size={12} wrap>
                 <Tag style={{ margin: 0, borderRadius: 999, background: '#ECFDF5', color: '#10B981', borderColor: '#A7F3D0', fontWeight: 800 }}>{act.status}</Tag>
                 <span style={{ fontSize: 12, color: '#94A3B8' }}>{act.time}</span>
               </Space>

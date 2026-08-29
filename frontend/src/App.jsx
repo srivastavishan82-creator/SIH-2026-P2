@@ -250,13 +250,17 @@ function App() {
 
       {/* User Profile Drawer */}
       <Drawer
-        title={<span style={{ fontWeight: 850, letterSpacing: '-0.02em', color: '#ffffff' }}>My Profile • Revenue Administrator</span>}
+        title={
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', justifyContent: 'space-between', width: '100%', paddingRight: 24 }}>
+            <span style={{ fontWeight: 850, letterSpacing: '-0.02em', color: '#ffffff', wordBreak: 'break-word' }}>My Profile • Revenue Administrator</span>
+            <Button onClick={() => { setProfileOpen(false); navigate('/profile'); }} style={{ borderRadius: 8, fontWeight: 700, background: '#d9f203', color: '#111111', border: 'none', padding: '4px 12px', height: 'auto' }}>Full Profile →</Button>
+          </div>
+        }
         open={profileOpen}
         onClose={() => setProfileOpen(false)}
         width={640}
         destroyOnClose={false}
-        styles={{ body: { padding: 16, background: '#000000' }, header: { borderBottom: '1px solid #333333', background: '#111111' } }}
-        extra={<Button onClick={() => { setProfileOpen(false); navigate('/profile'); }} style={{ borderRadius: 8, fontWeight: 700, background: '#d9f203', color: '#111111', border: 'none' }}>Open Full Profile →</Button>}
+        styles={{ body: { padding: 16, background: '#000000' }, header: { borderBottom: '1px solid #333333', background: '#111111', padding: '12px 16px' } }}
       >
         <Profile compact />
       </Drawer>
