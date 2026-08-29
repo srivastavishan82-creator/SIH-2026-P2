@@ -80,9 +80,9 @@ export default function Login({ onLogin }) {
             >
               <Input 
                 size="large"
-                prefix={<UserOutlined style={{ color: '#d9f203' }} />} 
-                placeholder="Work Email (e.g. admin@lrds.gov.in)" 
-                style={{ background: '#1a1a1a', borderColor: '#333333', color: '#ffffff', borderRadius: 10, height: 46 }}
+                prefix={<UserOutlined style={{ color: '#d9f203', fontSize: 16 }} />} 
+                placeholder="Work Email (admin@lrds.gov.in)" 
+                style={{ background: '#1a1a1a', borderColor: '#333333', color: '#ffffff', borderRadius: 10 }}
               />
             </Form.Item>
 
@@ -93,9 +93,9 @@ export default function Login({ onLogin }) {
             >
               <Input.Password 
                 size="large"
-                prefix={<LockOutlined style={{ color: '#d9f203' }} />} 
-                placeholder="Password" 
-                style={{ background: '#1a1a1a', borderColor: '#333333', color: '#ffffff', borderRadius: 10, height: 46 }}
+                prefix={<LockOutlined style={{ color: '#d9f203', fontSize: 16 }} />} 
+                placeholder="Enter password" 
+                style={{ background: '#1a1a1a', borderColor: '#333333', color: '#ffffff', borderRadius: 10 }}
               />
             </Form.Item>
 
