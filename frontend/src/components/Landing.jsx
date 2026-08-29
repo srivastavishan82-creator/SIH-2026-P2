@@ -97,17 +97,17 @@ const DISTRICT_BARS = [
 const PALETTE = {
   id: 'neon',
   name: 'Neon Tech',
-  gradient: 'linear-gradient(135deg, #d9f203 0%, #bac313 100%)',
+  gradient: 'linear-gradient(135deg, #d9f203 0%, #d9f203 100%)',
   primary: '#d9f203',
-  primaryStrong: '#bac313',
+  primaryStrong: '#d9f203',
   primaryRgb: '217,242,3',
-  accent: '#405bf7',
-  accentRgb: '64,91,247',
-  accentSoft: '#e0e5ff',
+  accent: '#ffffff',
+  accentRgb: '255,255,255',
+  accentSoft: '#ffffff',
   tagBg: '#111111',
   tagBorder: '#d9f203',
   tagColor: '#d9f203',
-  chartActive: 'linear-gradient(135deg, #d9f203, #bac313)',
+  chartActive: '#d9f203',
   shadow: '0 8px 24px rgba(217,242,3,0.15)',
 };
 
@@ -370,19 +370,19 @@ function ShowcaseSection({ onLaunch, P = PALETTE }) {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
-                background: activeTab === tab.id ? P.gradient : 'rgba(255,255,255,0.05)',
-                color: activeTab === tab.id ? '#ffffff' : '#94A3B8',
-                border: `1px solid ${activeTab === tab.id ? P.primary : 'rgba(255,255,255,0.1)'}`,
+                background: activeTab === tab.id ? '#d9f203' : 'rgba(255,255,255,0.05)',
+                color: activeTab === tab.id ? '#000000' : '#ffffff',
+                border: `1px solid ${activeTab === tab.id ? '#d9f203' : 'rgba(255,255,255,0.15)'}`,
                 padding: '12px 22px',
                 borderRadius: 12,
-                fontWeight: 750,
+                fontWeight: 800,
                 fontSize: 13.5,
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
                 transition: 'all 0.25s var(--ease-spring)',
-                boxShadow: activeTab === tab.id ? P.shadow : 'none'
+                boxShadow: activeTab === tab.id ? '0 8px 24px rgba(217,242,3,0.2)' : 'none'
               }}
             >
               {tab.icon} {tab.label}
@@ -392,26 +392,26 @@ function ShowcaseSection({ onLaunch, P = PALETTE }) {
 
         {/* Showcase Interactive Card Panel */}
         <Reveal delay={0.1}>
-          <div className="showcase-panel" style={{ border: `1px solid ${P.primary}33`, minHeight: 460, boxShadow: `0 0 0 1px ${P.primary}14, 0 20px 40px rgba(0,0,0,0.22)`, transition: 'all 0.3s' }}>
+          <div className="showcase-panel" style={{ border: '1px solid #d9f203', minHeight: 460, boxShadow: '0 0 0 1px rgba(217,242,3,0.15), 0 20px 40px rgba(0,0,0,0.4)', transition: 'all 0.3s', background: '#000000' }}>
             {activeTab === 'throughput' && (
               <>
                 <div className="showcase-copy">
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: P.primaryStrong, fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
-                    <span style={{ width: 8, height: 8, borderRadius: 99, background: P.primary, boxShadow: `0 0 8px ${P.primary}` }} /> 
-                    Live Pilot Telemetry • {P.name}
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#d9f203', fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: 99, background: '#d9f203', boxShadow: '0 0 8px #d9f203' }} /> 
+                    Live Pilot Telemetry • Neon Tech
                   </div>
-                  <h3>District-wise velocity, accuracy, and SLA queues.</h3>
-                  <p>
+                  <h3 style={{ color: '#ffffff' }}>District-wise velocity, accuracy, and SLA queues.</h3>
+                  <p style={{ color: '#ffffff', opacity: 0.9 }}>
                     Administrators track ingestion throughput across every tehsil while verifiers clear low-confidence flags with zero backlog.
                   </p>
 
                   <div className="kpi-list">
                     {[
-                      [P.primary, `Selected District: ${selectedDistrict.name} (${selectedDistrict.count} records digested)`],
-                      [P.accent, '94.8% mean extraction confidence across UP zone'],
-                      [P.primary, '46 fields queued for expert human verification'],
+                      ['#d9f203', `Selected District: ${selectedDistrict.name} (${selectedDistrict.count} records digested)`],
+                      ['#d9f203', '94.8% mean extraction confidence across UP zone'],
+                      ['#d9f203', '46 fields queued for expert human verification'],
                     ].map(([c, txt]) => (
-                      <div className="kpi-row" key={txt} style={{ borderColor: `${c}22` }}>
+                      <div className="kpi-row" key={txt} style={{ borderColor: 'rgba(217,242,3,0.2)', background: 'rgba(255,255,255,0.04)', color: '#ffffff' }}>
                         <span className="kpi-dot" style={{ background: c, boxShadow: `0 0 10px ${c}` }} />
                         {txt}
                       </div>
@@ -419,16 +419,16 @@ function ShowcaseSection({ onLaunch, P = PALETTE }) {
                   </div>
 
                   <div style={{ marginTop: 24 }}>
-                    <button onClick={onLaunch} style={{ height: 42, paddingInline: 22, fontSize: 13.5, borderRadius: 12, fontWeight: 800, color: '#fff', background: P.gradient, border: `1px solid ${P.primary}`, boxShadow: P.shadow, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                    <button onClick={onLaunch} style={{ height: 42, paddingInline: 22, fontSize: 13.5, borderRadius: 12, fontWeight: 800, color: '#000000', background: '#d9f203', border: '1px solid #d9f203', boxShadow: '0 8px 24px rgba(217,242,3,0.25)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                       Launch Analytics Dashboard →
                     </button>
                   </div>
                 </div>
 
-                <div className="chart-mock" style={{ background: 'rgba(9,13,22,0.85)', padding: 24, borderRadius: 20, border: `1px solid ${P.primary}1A` }}>
+                <div className="chart-mock" style={{ background: '#111111', padding: 24, borderRadius: 20, border: '1px solid #d9f203' }}>
                   <div className="chart-mock-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: '#F1F5F9', fontWeight: 800, fontSize: 14 }}>District Digitization Velocity</span>
-                    <span style={{ color: P.primaryStrong, fontWeight: 800, background: `${P.primary}18`, padding: '2px 8px', borderRadius: 99, border: `1px solid ${P.primary}30` }}>+18.2% surge</span>
+                    <span style={{ color: '#ffffff', fontWeight: 800, fontSize: 14 }}>District Digitization Velocity</span>
+                    <span style={{ color: '#000000', fontWeight: 800, background: '#d9f203', padding: '2px 8px', borderRadius: 99, border: '1px solid #d9f203' }}>+18.2% surge</span>
                   </div>
                   
                   {/* Interactive District Bar Graph */}
@@ -440,19 +440,19 @@ function ShowcaseSection({ onLaunch, P = PALETTE }) {
                         onClick={() => setSelectedDistrict(b)}
                         style={{ cursor: 'pointer', opacity: selectedDistrict.name === b.name ? 1 : 0.65, transition: 'all 0.2s ease', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%', flex: 1 }}
                       >
-                        <span style={{ fontSize: 11, color: selectedDistrict.name === b.name ? P.primaryStrong : '#9e9e9e', fontWeight: 800, marginBottom: 4 }}>
+                        <span style={{ fontSize: 11, color: selectedDistrict.name === b.name ? '#d9f203' : '#ffffff', fontWeight: 800, marginBottom: 4 }}>
                           {b.count}
                         </span>
                         <div 
                           style={{ 
                             width: '100%', 
                             height: `${b.h}%`, 
-                            background: selectedDistrict.name === b.name ? P.gradient : '#333333',
+                            background: selectedDistrict.name === b.name ? '#d9f203' : '#333333',
                             borderRadius: 6,
                             transition: 'all 0.3s ease'
                           }} 
                         />
-                        <span className="bar-label" style={{ color: selectedDistrict.name === b.name ? '#ffffff' : '#9e9e9e', fontWeight: 750, marginTop: 6, fontSize: 11, textAlign: 'center' }}>
+                        <span className="bar-label" style={{ color: selectedDistrict.name === b.name ? '#d9f203' : '#ffffff', fontWeight: 750, marginTop: 6, fontSize: 11, textAlign: 'center' }}>
                           {b.name}
                         </span>
                       </div>
@@ -465,37 +465,37 @@ function ShowcaseSection({ onLaunch, P = PALETTE }) {
             {activeTab === 'ocr_inspector' && (
               <>
                 <div className="showcase-copy">
-                  <div style={{ color: P.primaryStrong, fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+                  <div style={{ color: '#d9f203', fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
                     Neural Bounding Box AI
                   </div>
-                  <h3>Multi-layered spatial layout reconstruction.</h3>
-                  <p>
+                  <h3 style={{ color: '#ffffff' }}>Multi-layered spatial layout reconstruction.</h3>
+                  <p style={{ color: '#ffffff', opacity: 0.9 }}>
                     Deep learning segmentation engines map tabular boundaries, khasra columns, and landowner rows directly on scanned raster images.
                   </p>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 16 }}>
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: 12, borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
-                      <div style={{ color: P.primaryStrong, fontWeight: 800, fontSize: 16 }}>0.04s</div>
-                      <div style={{ color: '#94A3B8', fontSize: 11.5 }}>Layout Inference</div>
+                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: 12, borderRadius: 10, border: '1px solid #d9f203' }}>
+                      <div style={{ color: '#d9f203', fontWeight: 800, fontSize: 16 }}>0.04s</div>
+                      <div style={{ color: '#ffffff', fontSize: 11.5 }}>Layout Inference</div>
                     </div>
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: 12, borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
-                      <div style={{ color: P.accent, fontWeight: 800, fontSize: 16 }}>99.2%</div>
-                      <div style={{ color: '#94A3B8', fontSize: 11.5 }}>Table IoU Precision</div>
+                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: 12, borderRadius: 10, border: '1px solid #d9f203' }}>
+                      <div style={{ color: '#d9f203', fontWeight: 800, fontSize: 16 }}>99.2%</div>
+                      <div style={{ color: '#ffffff', fontSize: 11.5 }}>Table IoU Precision</div>
                     </div>
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(9,13,22,0.85)', padding: 20, borderRadius: 20, border: `1px solid ${P.primary}33`, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94A3B8', fontSize: 12 }}>
+                <div style={{ background: '#111111', padding: 20, borderRadius: 20, border: '1px solid #d9f203', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#ffffff', fontSize: 12 }}>
                     <span>Spatial Bounding Box Overlay</span>
-                    <span style={{ color: P.accent, fontWeight: 700 }}>4 Zones Detected</span>
+                    <span style={{ color: '#d9f203', fontWeight: 700 }}>4 Zones Detected</span>
                   </div>
-                  <div style={{ background: '#0F172A', border: `1.5px solid ${P.primary}`, padding: 16, borderRadius: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <div style={{ background: '#000000', border: '1.5px solid #d9f203', padding: 16, borderRadius: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: 6 }}>
-                      <span style={{ color: P.primaryStrong, fontSize: 11.5, fontWeight: 700 }}>BBox [120, 45, 380, 85]</span>
-                      <span style={{ color: P.accent, fontSize: 11.5 }}>Conf 98%</span>
+                      <span style={{ color: '#d9f203', fontSize: 11.5, fontWeight: 700 }}>BBox [120, 45, 380, 85]</span>
+                      <span style={{ color: '#ffffff', fontSize: 11.5 }}>Conf 98%</span>
                     </div>
                     <div style={{ color: '#ffffff', fontWeight: 800, fontSize: 15 }}>खातेदार: राजेश कुमार शर्मा</div>
-                    <div style={{ color: '#94A3B8', fontSize: 12 }}>खसरा सं. 45/2B • क्षेत्रफल: 2.45 हे.</div>
+                    <div style={{ color: '#ffffff', opacity: 0.85, fontSize: 12 }}>खसरा सं. 45/2B • क्षेत्रफल: 2.45 हे.</div>
                   </div>
                 </div>
               </>
@@ -504,28 +504,28 @@ function ShowcaseSection({ onLaunch, P = PALETTE }) {
             {activeTab === 'audit_gate' && (
               <>
                 <div className="showcase-copy">
-                  <div style={{ color: P.accent, fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+                  <div style={{ color: '#d9f203', fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
                     Human Verification Chamber
                   </div>
-                  <h3>Instant side-by-side audit resolution.</h3>
-                  <p>
+                  <h3 style={{ color: '#ffffff' }}>Instant side-by-side audit resolution.</h3>
+                  <p style={{ color: '#ffffff', opacity: 0.9 }}>
                     When handwriting confidence dips below 80%, fields are highlighted in yellow and routed to district verifiers with one-click approval.
                   </p>
                   <div style={{ marginTop: 20 }}>
-                    <button onClick={onLaunch} style={{ height: 42, paddingInline: 22, fontSize: 13.5, borderRadius: 12, fontWeight: 800, color: '#fff', background: P.gradient, border: `1px solid ${P.primary}`, boxShadow: P.shadow, cursor: 'pointer' }}>
+                    <button onClick={onLaunch} style={{ height: 42, paddingInline: 22, fontSize: 13.5, borderRadius: 12, fontWeight: 800, color: '#000000', background: '#d9f203', border: '1px solid #d9f203', boxShadow: '0 8px 24px rgba(217,242,3,0.25)', cursor: 'pointer' }}>
                       Test Verification Station →
                     </button>
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(9,13,22,0.85)', padding: 20, borderRadius: 20, border: `1px solid ${P.primary}33`, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  <div style={{ fontSize: 12, color: '#94A3B8', fontWeight: 700 }}>Live Review Simulation</div>
-                  <div style={{ background: `rgba(${P.primaryRgb},0.1)`, border: `1px solid ${P.primary}`, padding: 14, borderRadius: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ background: '#111111', padding: 20, borderRadius: 20, border: '1px solid #d9f203', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  <div style={{ fontSize: 12, color: '#ffffff', fontWeight: 700 }}>Live Review Simulation</div>
+                  <div style={{ background: 'rgba(217,242,3,0.1)', border: '1px solid #d9f203', padding: 14, borderRadius: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <div style={{ fontSize: 11, color: P.primaryStrong, fontWeight: 750 }}>FLAGGED: Khasra Plot No.</div>
-                      <div style={{ fontSize: 14, fontWeight: 800, color: '#fff', marginTop: 2 }}>123/4A (Confidence 78%)</div>
+                      <div style={{ fontSize: 11, color: '#d9f203', fontWeight: 750 }}>FLAGGED: Khasra Plot No.</div>
+                      <div style={{ fontSize: 14, fontWeight: 800, color: '#ffffff', marginTop: 2 }}>123/4A (Confidence 78%)</div>
                     </div>
-                    <span style={{ background: P.accent, color: '#fff', padding: '6px 12px', borderRadius: 8, fontSize: 11, fontWeight: 800 }}>
+                    <span style={{ background: '#d9f203', color: '#000000', padding: '6px 12px', borderRadius: 8, fontSize: 11, fontWeight: 800 }}>
                       One-Click Verify
                     </span>
                   </div>
