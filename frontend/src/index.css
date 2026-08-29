@@ -1014,7 +1014,9 @@ h1,h2,h3,h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
   .landing .nav-links{ display:none !important; }
   .landing .nav-cta{ padding:7px 12px !important; font-size:12px !important; border-radius:999px !important; gap:6px !important; }
   /* Hero */
-  .landing .hero{ padding:92px 16px 36px !important; min-height:auto !important; }
+  .landing .hero{ padding:92px 16px 36px !important; min-height:auto !important; transform: none !important; will-change: auto !important; }
+  .landing .hero video{ transform: none !important; will-change: auto !important; position: absolute !important; }
+  .landing .hero-core{ transform: none !important; will-change: auto !important; }
   .landing .chip{ font-size:10px !important; padding:5px 10px !important; text-align:center !important; }
   .landing .hero-title{ font-size:34px !important; line-height:0.95 !important; text-align:center !important; }
   .landing .hero-sub{ font-size:13.5px !important; line-height:1.5 !important; max-width:100% !important; padding:0 4px !important; text-align:center !important; }
