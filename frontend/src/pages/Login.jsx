@@ -79,10 +79,9 @@ export default function Login({ onLogin }) {
               style={{ marginBottom: 16 }}
             >
               <Input 
-                size="large"
-                prefix={<UserOutlined style={{ color: '#d9f203', fontSize: 16 }} />} 
+                className="login-input-field"
+                prefix={<UserOutlined className="login-input-icon" />} 
                 placeholder="Work Email (admin@lrds.gov.in)" 
-                style={{ background: '#1a1a1a', borderColor: '#333333', color: '#ffffff', borderRadius: 10 }}
               />
             </Form.Item>
 
@@ -92,10 +91,9 @@ export default function Login({ onLogin }) {
               style={{ marginBottom: 10 }}
             >
               <Input.Password 
-                size="large"
-                prefix={<LockOutlined style={{ color: '#d9f203', fontSize: 16 }} />} 
-                placeholder="Enter password" 
-                style={{ background: '#1a1a1a', borderColor: '#333333', color: '#ffffff', borderRadius: 10 }}
+                className="login-input-field"
+                prefix={<LockOutlined className="login-input-icon" />} 
+                placeholder="Password" 
               />
             </Form.Item>
 
