@@ -572,7 +572,6 @@ h1,h2,h3,h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
   min-height: 100vh;
   font-family: var(--font-body);
   position: relative;
-  overflow-x: hidden;
 }
 .land-nav {
   position: fixed;
@@ -1016,7 +1015,7 @@ h1,h2,h3,h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
   /* Hero */
   .landing .hero{ padding:92px 16px 36px !important; min-height:auto !important; transform: none !important; will-change: auto !important; }
   .landing .hero video{ transform: none !important; will-change: auto !important; position: absolute !important; }
-  .landing .hero-core{ transform: none !important; will-change: auto !important; }
+  .landing .hero-core{ transform: none !important; will-change: auto !important; opacity: 1 !important; }
   .landing .chip{ font-size:10px !important; padding:5px 10px !important; text-align:center !important; }
   .landing .hero-title{ font-size:34px !important; line-height:0.95 !important; text-align:center !important; }
   .landing .hero-sub{ font-size:13.5px !important; line-height:1.5 !important; max-width:100% !important; padding:0 4px !important; text-align:center !important; }
