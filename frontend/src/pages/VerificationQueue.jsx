@@ -6,7 +6,7 @@ const { Text } = Typography;
 function VerificationQueue() {
   const [filter, setFilter] = useState('All'); 
   const [query, setQuery] = useState('');
-  const [view, setView] = useState('table');
+  const [view, setView] = useState(window.innerWidth < 768 ? 'cards' : 'table');
   const [editOpen, setEditOpen] = useState(false);
   const [active, setActive] = useState(null);
   const [data, setData] = useState([
@@ -24,9 +24,9 @@ function VerificationQueue() {
 
   const columns = [
     { title: 'Document', dataIndex: 'document', key: 'document', width: 190, ellipsis:true, render: (text, rec) => (
-        <Space size={10} style={{display:'flex', alignItems:'center'}}>
+        <Space size={10} style={{display:'flex', alignItems:'center', minWidth:0}}>
           <div style={{width:30, height:30, borderRadius:8, background:'#d9f203', color:'#111111', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}><FileTextOutlined style={{fontSize:14}}/></div>
-          <div style={{lineHeight:1.25, minWidth:0}}><Text strong style={{color:'#0F172A', fontSize:12.5, display:'block', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{text}</Text><div style={{fontSize:11, color:'#64748B', whiteSpace:'nowrap'}}>{rec.type} • {rec.district}</div></div>
+          <div style={{lineHeight:1.25, minWidth:0, flex: 1}}><Text strong style={{color:'#0F172A', fontSize:12.5, display:'block', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{text}</Text><div style={{fontSize:11, color:'#64748B', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{rec.type} • {rec.district}</div></div>
         </Space>
       )},
     { title: 'Flagged Field', dataIndex: 'field', key: 'field', width: 120, ellipsis:true, render:(t)=><Text style={{fontWeight:700, color:'#0F172A', fontSize:12.5}}>{t}</Text>},
@@ -76,11 +76,11 @@ function VerificationQueue() {
             </div>
             
             <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:12, flexWrap:'wrap', padding:'10px 12px', background:'#F8FAFC', border:'1px solid #E2E8F0', borderRadius:10, marginBottom:14}}>
-              <div style={{display:'flex', alignItems:'center', gap:8, flexWrap:'wrap', flex:'1 1 auto', minWidth:240}}>
-                <Segmented size="small" options={['All','Low Confidence','Needs Review','Verified']} value={filter} onChange={setFilter} style={{height:28, display:'flex', alignItems:'center'}} />
-                <span style={{height:28, display:'inline-flex', alignItems:'center', gap:6, color:'#0F172A', fontSize:11, fontWeight:700, whiteSpace:'nowrap', background:'#FFFFFF', border:'1px solid #E2E8F0', borderRadius:999, padding:'0 10px'}}><FilterOutlined style={{color:'#0F172A', fontSize:11}}/>{filtered.length} matches</span>
+              <div style={{display:'flex', alignItems:'center', gap:8, flexWrap:'nowrap', flex:'1 1 auto', minWidth:0, overflowX:'auto'}}>
+                <Segmented size="small" options={['All','Low Confidence','Needs Review','Verified']} value={filter} onChange={setFilter} style={{height:28, display:'flex', alignItems:'center', flexShrink:0}} />
+                <span style={{height:28, display:'inline-flex', alignItems:'center', gap:6, color:'#0F172A', fontSize:11, fontWeight:700, whiteSpace:'nowrap', background:'#FFFFFF', border:'1px solid #E2E8F0', borderRadius:999, padding:'0 10px', flexShrink:0}}><FilterOutlined style={{color:'#0F172A', fontSize:11}}/>{filtered.length} matches</span>
               </div>
-              <div style={{display:'flex', alignItems:'center', gap:8, flexShrink:0}}>
+              <div style={{display:'flex', alignItems:'center', gap:8, flexShrink:0, flexWrap:'nowrap'}}>
                 <Input placeholder="Search queue…" prefix={<SearchOutlined style={{color:'#94A3B8', fontSize:12}} />} value={query} onChange={(e)=>setQuery(e.target.value)} allowClear style={{width:150, borderRadius:8, height:28, fontSize:12, background:'#FFFFFF'}} size="small" />
                 <Segmented size="small" value={view} onChange={setView} options={[{label:'', value:'table', icon:<TableOutlined style={{fontSize:12}}/>},{label:'', value:'cards', icon:<AppstoreOutlined style={{fontSize:12}}/>}]} style={{height:28}} />
               </div>
@@ -96,11 +96,11 @@ function VerificationQueue() {
                     const c = rec.confidence<60? '#DC2626' : rec.confidence<80? '#D97706':'#059669';
                     const isActive = active?.key === rec.key;
                     return (
-                      <Card key={rec.key} bordered={false} className="saffron-card" onClick={()=>{setActive(rec); setEditOpen(true);}} bodyStyle={{padding:12}} style={{borderRadius:10, borderLeft:`3px solid ${c}`, background: isActive ? '#EFF6FF' : '#ffffff', border: isActive ? '1px solid #BFDBFE' : '1px solid #E2E8F0', cursor: 'pointer'}}>
-                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', gap:10}}>
-                          <div style={{display:'flex', gap:10, alignItems:'center', minWidth:0}}>
+                      <Card key={rec.key} bordered={false} className="saffron-card mobile-black-card" onClick={()=>{setActive(rec); setEditOpen(true);}} bodyStyle={{padding:12}} style={{borderRadius:10, borderLeft:`3px solid ${c}`, background: isActive ? '#EFF6FF' : '#ffffff', border: isActive ? '1px solid #BFDBFE' : '1px solid #E2E8F0', cursor: 'pointer'}}>
+                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', gap:10, minWidth:0}}>
+                          <div style={{display:'flex', gap:10, alignItems:'center', minWidth:0, flex:1}}>
                             <div style={{width:32, height:32, borderRadius:8, background:'#d9f203', color:'#111111', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}><FileTextOutlined style={{fontSize:13}}/></div>
-                            <div style={{minWidth:0}}><div style={{fontWeight:800, color:'#0F172A', fontSize:12.5, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{rec.document}</div><div style={{fontSize:11, color:'#64748B'}}>{rec.type} • {rec.district}</div></div>
+                            <div style={{minWidth:0, flex:1}}><div style={{fontWeight:800, color:'#0F172A', fontSize:12.5, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{rec.document}</div><div style={{fontSize:11, color:'#64748B', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{rec.type} • {rec.district}</div></div>
                           </div>
                           <Tag style={{margin:0, borderRadius:999, fontWeight:700, fontSize:11, flexShrink:0, background: rec.status==='Verified'? '#ECFDF5': '#F8FAFC', color:c, border: rec.status==='Verified'?'1px solid #A7F3D0':'1px solid #E2E8F0'}}>{rec.status}</Tag>
                         </div>
