@@ -394,10 +394,28 @@ function ShowcaseSection({ onLaunch, P = PALETTE }) {
 
         {/* Showcase Interactive Card Panel */}
         <Reveal delay={0.1}>
-          <div className="showcase-panel" style={{ border: '1px solid #d9f203', minHeight: 400, boxShadow: '0 0 0 1px rgba(217,242,3,0.15), 0 20px 40px rgba(0,0,0,0.4)', transition: 'all 0.3s', background: '#000000', width: '100%', maxWidth: '100%', boxSizing: 'border-box', overflow: 'hidden' }}>
+          <div
+            className="showcase-panel"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))',
+              gap: 20,
+              alignItems: 'start',
+              border: '1px solid #d9f203',
+              boxShadow: '0 0 0 1px rgba(217,242,3,0.15), 0 20px 40px rgba(0,0,0,0.5)',
+              transition: 'all 0.3s',
+              background: '#000000',
+              width: '100%',
+              maxWidth: '100%',
+              boxSizing: 'border-box',
+              padding: 20,
+              borderRadius: 20,
+              overflow: 'hidden'
+            }}
+          >
             {activeTab === 'throughput' && (
               <>
-                <div className="showcase-copy" style={{ minWidth: 0, width: '100%', boxSizing: 'border-box' }}>
+                <div className="showcase-copy" style={{ minWidth: 0, width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#d9f203', fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10, flexWrap: 'wrap' }}>
                     <span style={{ width: 8, height: 8, borderRadius: 99, background: '#d9f203', boxShadow: '0 0 8px #d9f203', flexShrink: 0 }} /> 
                     Live Pilot Telemetry • Neon Tech
