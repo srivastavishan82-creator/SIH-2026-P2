@@ -65,12 +65,12 @@ function UploadDocument() {
         {/* LEFT: Intake */}
         <Col xs={24} lg={12}>
           <Card bordered={false} className="saffron-card" bodyStyle={{ padding: 16 }} style={{borderRadius:16, background: '#ffffff', border: '1px solid #E2E8F0', height: '100%'}}>
-            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12}}>
+            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12, flexWrap:'wrap', gap:8}}>
               <div style={{fontWeight:850, color:'#0F172A', fontSize:15}}>1 — Configure & Drop</div>
               <Tag style={{margin:0, background:'#F1F5F9', border:'1px solid #E2E8F0', color:'#0F172A', borderRadius:999, fontWeight:700}}><GlobalOutlined/> 11 scripts</Tag>
             </div>
             <Form layout="vertical" style={{marginBottom:8}}>
-              <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12}}>
+              <div className="intake-form-grid" style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12}}>
                 <Form.Item label={<Text strong style={{color:'#475569', fontSize:11, letterSpacing:'0.06em'}}>DOCUMENT TYPE</Text>} style={{marginBottom:10}}>
                   <Select defaultValue="register" size="large">
                     <Select.Option value="register">Khatauni Register</Select.Option>
@@ -101,7 +101,7 @@ function UploadDocument() {
               </Space>
             </Dragger>
 
-            <div style={{marginTop:12, display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:8}}>
+            <div className="quick-demo-grid" style={{marginTop:12, display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:8}}>
               {[
                 {n:'khatauni_agra.pdf', t:'Khatauni • 2.4 MB', c:'#d9f203'},
                 {n:'bhu_naksha_045.jpg', t:'Map • 4.1 MB', c:'#4F46E5'},
