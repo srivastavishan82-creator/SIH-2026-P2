@@ -360,7 +360,7 @@ function ShowcaseSection({ onLaunch, P = PALETTE }) {
         </Reveal>
 
         {/* Interactive Mode Selector Tabs */}
-        <div style={{ display: 'flex', gap: 12, marginTop: 22, marginBottom: 24, flexWrap: 'wrap' }}>
+        <div className="showcase-tabs" style={{ display: 'flex', gap: 10, marginTop: 20, marginBottom: 20, overflowX: 'auto', WebkitOverflowScrolling: 'touch', maxWidth: '100%', paddingBottom: 6, scrollbarWidth: 'none' }}>
           {[
             { id: 'throughput', label: 'District Throughput Radar', icon: <BarChartOutlined /> },
             { id: 'ocr_inspector', label: 'Neural Bounding Box Inspector', icon: <AimOutlined /> },
@@ -373,16 +373,18 @@ function ShowcaseSection({ onLaunch, P = PALETTE }) {
                 background: activeTab === tab.id ? '#d9f203' : 'rgba(255,255,255,0.05)',
                 color: activeTab === tab.id ? '#000000' : '#ffffff',
                 border: `1px solid ${activeTab === tab.id ? '#d9f203' : 'rgba(255,255,255,0.15)'}`,
-                padding: '12px 22px',
-                borderRadius: 12,
+                padding: '10px 16px',
+                borderRadius: 10,
                 fontWeight: 800,
-                fontSize: 13.5,
+                fontSize: 12.5,
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
+                flexShrink: 0,
+                whiteSpace: 'nowrap',
                 transition: 'all 0.25s var(--ease-spring)',
-                boxShadow: activeTab === tab.id ? '0 8px 24px rgba(217,242,3,0.2)' : 'none'
+                boxShadow: activeTab === tab.id ? '0 4px 16px rgba(217,242,3,0.2)' : 'none'
               }}
             >
               {tab.icon} {tab.label}
@@ -392,55 +394,57 @@ function ShowcaseSection({ onLaunch, P = PALETTE }) {
 
         {/* Showcase Interactive Card Panel */}
         <Reveal delay={0.1}>
-          <div className="showcase-panel" style={{ border: '1px solid #d9f203', minHeight: 460, boxShadow: '0 0 0 1px rgba(217,242,3,0.15), 0 20px 40px rgba(0,0,0,0.4)', transition: 'all 0.3s', background: '#000000' }}>
+          <div className="showcase-panel" style={{ border: '1px solid #d9f203', minHeight: 400, boxShadow: '0 0 0 1px rgba(217,242,3,0.15), 0 20px 40px rgba(0,0,0,0.4)', transition: 'all 0.3s', background: '#000000', width: '100%', maxWidth: '100%', boxSizing: 'border-box', overflow: 'hidden' }}>
             {activeTab === 'throughput' && (
               <>
-                <div className="showcase-copy">
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#d9f203', fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
-                    <span style={{ width: 8, height: 8, borderRadius: 99, background: '#d9f203', boxShadow: '0 0 8px #d9f203' }} /> 
+                <div className="showcase-copy" style={{ minWidth: 0, width: '100%', boxSizing: 'border-box' }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#d9f203', fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10, flexWrap: 'wrap' }}>
+                    <span style={{ width: 8, height: 8, borderRadius: 99, background: '#d9f203', boxShadow: '0 0 8px #d9f203', flexShrink: 0 }} /> 
                     Live Pilot Telemetry • Neon Tech
                   </div>
-                  <h3 style={{ color: '#ffffff' }}>District-wise velocity, accuracy, and SLA queues.</h3>
-                  <p style={{ color: '#ffffff', opacity: 0.9 }}>
+                  <h3 style={{ color: '#ffffff', fontSize: 'clamp(18px, 4.5vw, 22px)', lineHeight: 1.25, margin: 0, wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+                    District-wise velocity, accuracy, and SLA queues.
+                  </h3>
+                  <p style={{ color: '#ffffff', opacity: 0.9, fontSize: 13, lineHeight: 1.5, marginTop: 8, wordBreak: 'break-word' }}>
                     Administrators track ingestion throughput across every tehsil while verifiers clear low-confidence flags with zero backlog.
                   </p>
 
-                  <div className="kpi-list">
+                  <div className="kpi-list" style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 14, width: '100%', maxWidth: '100%' }}>
                     {[
                       ['#d9f203', `Selected District: ${selectedDistrict.name} (${selectedDistrict.count} records digested)`],
                       ['#d9f203', '94.8% mean extraction confidence across UP zone'],
                       ['#d9f203', '46 fields queued for expert human verification'],
                     ].map(([c, txt]) => (
-                      <div className="kpi-row" key={txt} style={{ borderColor: 'rgba(217,242,3,0.2)', background: 'rgba(255,255,255,0.04)', color: '#ffffff' }}>
-                        <span className="kpi-dot" style={{ background: c, boxShadow: `0 0 10px ${c}` }} />
-                        {txt}
+                      <div className="kpi-row" key={txt} style={{ borderColor: 'rgba(217,242,3,0.2)', background: 'rgba(255,255,255,0.04)', color: '#ffffff', padding: '10px 12px', borderRadius: 10, display: 'flex', alignItems: 'flex-start', gap: 10, minWidth: 0, maxWidth: '100%', boxSizing: 'border-box' }}>
+                        <span className="kpi-dot" style={{ background: c, boxShadow: `0 0 10px ${c}`, width: 8, height: 8, borderRadius: 999, flexShrink: 0, marginTop: 4 }} />
+                        <span style={{ flex: 1, minWidth: 0, fontSize: 12.5, lineHeight: 1.4, wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{txt}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div style={{ marginTop: 24 }}>
-                    <button onClick={onLaunch} style={{ height: 42, paddingInline: 22, fontSize: 13.5, borderRadius: 12, fontWeight: 800, color: '#000000', background: '#d9f203', border: '1px solid #d9f203', boxShadow: '0 8px 24px rgba(217,242,3,0.25)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{ marginTop: 18, width: '100%' }}>
+                    <button onClick={onLaunch} style={{ height: 42, paddingInline: 20, width: '100%', maxWidth: 320, fontSize: 13, borderRadius: 10, fontWeight: 800, color: '#000000', background: '#d9f203', border: '1px solid #d9f203', boxShadow: '0 6px 20px rgba(217,242,3,0.25)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, boxSizing: 'border-box' }}>
                       Launch Analytics Dashboard →
                     </button>
                   </div>
                 </div>
 
-                <div className="chart-mock" style={{ background: '#111111', padding: 24, borderRadius: 20, border: '1px solid #d9f203' }}>
-                  <div className="chart-mock-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: '#ffffff', fontWeight: 800, fontSize: 14 }}>District Digitization Velocity</span>
-                    <span style={{ color: '#000000', fontWeight: 800, background: '#d9f203', padding: '2px 8px', borderRadius: 99, border: '1px solid #d9f203' }}>+18.2% surge</span>
+                <div className="chart-mock" style={{ background: '#111111', padding: '16px 14px', borderRadius: 16, border: '1px solid #d9f203', width: '100%', maxWidth: '100%', boxSizing: 'border-box', minWidth: 0, overflow: 'hidden' }}>
+                  <div className="chart-mock-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                    <span style={{ color: '#ffffff', fontWeight: 800, fontSize: 13 }}>District Digitization Velocity</span>
+                    <span style={{ color: '#000000', fontWeight: 800, background: '#d9f203', padding: '2px 8px', borderRadius: 99, border: '1px solid #d9f203', fontSize: 11 }}>+18.2% surge</span>
                   </div>
                   
                   {/* Interactive District Bar Graph */}
-                  <div className="bars" style={{ height: 180, marginTop: 14, display: 'flex', alignItems: 'flex-end', gap: 8, justifyContent: 'space-between' }}>
+                  <div className="bars" style={{ height: 150, marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 6, alignItems: 'end', width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
                     {DISTRICT_BARS.map((b) => (
                       <div 
                         className="bar-col" 
                         key={b.name} 
                         onClick={() => setSelectedDistrict(b)}
-                        style={{ cursor: 'pointer', opacity: selectedDistrict.name === b.name ? 1 : 0.65, transition: 'all 0.2s ease', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%', flex: 1 }}
+                        style={{ cursor: 'pointer', opacity: selectedDistrict.name === b.name ? 1 : 0.65, transition: 'all 0.2s ease', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%', width: '100%', minWidth: 0, overflow: 'hidden' }}
                       >
-                        <span style={{ fontSize: 11, color: selectedDistrict.name === b.name ? '#d9f203' : '#ffffff', fontWeight: 800, marginBottom: 4 }}>
+                        <span style={{ fontSize: 10, color: selectedDistrict.name === b.name ? '#d9f203' : '#ffffff', fontWeight: 800, marginBottom: 4, lineHeight: 1 }}>
                           {b.count}
                         </span>
                         <div 
@@ -448,11 +452,11 @@ function ShowcaseSection({ onLaunch, P = PALETTE }) {
                             width: '100%', 
                             height: `${b.h}%`, 
                             background: selectedDistrict.name === b.name ? '#d9f203' : '#333333',
-                            borderRadius: 6,
+                            borderRadius: 4,
                             transition: 'all 0.3s ease'
                           }} 
                         />
-                        <span className="bar-label" style={{ color: selectedDistrict.name === b.name ? '#d9f203' : '#ffffff', fontWeight: 750, marginTop: 6, fontSize: 11, textAlign: 'center' }}>
+                        <span className="bar-label" style={{ color: selectedDistrict.name === b.name ? '#d9f203' : '#ffffff', fontWeight: 750, marginTop: 6, fontSize: 9.5, textAlign: 'center', width: '100%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block' }}>
                           {b.name}
                         </span>
                       </div>
