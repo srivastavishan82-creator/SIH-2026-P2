@@ -1063,20 +1063,27 @@ h1,h2,h3,h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
   .landing .marquee-wrap{ padding:10px 0 !important; }
   .landing .marquee-track{ gap:20px !important; }
   .landing .marquee-item{ font-size:11px !important; }
-  /* Login + Get Started (SSO) mobile */
-  .login-page{ padding:20px 14px !important; display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; min-height:100dvh !important; box-sizing:border-box !important; }
-  .login-page .login-container{ max-width:100% !important; padding:0 !important; width:100% !important; margin:auto !important; box-sizing:border-box !important; }
-  .login-page .login-container h2{ font-size:22px !important; text-align:center !important; }
-  .login-page .ant-card{ border-radius:14px !important; width:100% !important; box-sizing:border-box !important; }
-  .login-page .ant-card-body{ padding:20px 16px !important; }
-  .login-page .login-input-field.ant-input-affix-wrapper, .login-page .ant-input-affix-wrapper{ display:flex !important; align-items:center !important; height:50px !important; min-height:50px !important; padding:0 14px !important; background:#161616 !important; border:1.5px solid #333333 !important; border-radius:12px !important; box-sizing:border-box !important; }
+  /* Login — Mobile only: perfect center alignment, no desktop change */
+  .login-page{ padding:24px 16px !important; display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; justify-items:center !important; min-height:100dvh !important; min-height:100vh !important; box-sizing:border-box !important; overflow-x:hidden !important; }
+  .login-page .login-container{ max-width:400px !important; width:100% !important; margin:0 auto !important; padding:0 !important; box-sizing:border-box !important; display:flex !important; flex-direction:column !important; align-items:stretch !important; justify-content:center !important; gap:0 !important; }
+  .login-page .login-container > div:first-child{ width:100% !important; display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; text-align:center !important; margin-bottom:20px !important; }
+  .login-page .login-container h2{ font-size:22px !important; text-align:center !important; width:100% !important; }
+  .login-page .login-container .ant-typography{ text-align:center !important; width:100% !important; }
+  .login-page .ant-card{ border-radius:16px !important; width:100% !important; max-width:100% !important; margin:0 auto !important; box-sizing:border-box !important; display:flex !important; flex-direction:column !important; align-items:stretch !important; }
+  .login-page .ant-card-body{ padding:20px 16px !important; width:100% !important; box-sizing:border-box !important; display:flex !important; flex-direction:column !important; align-items:stretch !important; }
+  .login-page .ant-form{ width:100% !important; max-width:100% !important; box-sizing:border-box !important; }
+  .login-page .ant-form-item{ width:100% !important; max-width:100% !important; margin-left:0 !important; margin-right:0 !important; }
+  .login-page .ant-form-item-control, .login-page .ant-form-item-control-input, .login-page .ant-form-item-control-input-content{ width:100% !important; max-width:100% !important; }
+  .login-page .login-input-field.ant-input-affix-wrapper, .login-page .ant-input-affix-wrapper, .login-page .ant-input{ width:100% !important; max-width:100% !important; box-sizing:border-box !important; }
+  .login-page .login-input-field.ant-input-affix-wrapper, .login-page .ant-input-affix-wrapper{ display:flex !important; align-items:center !important; justify-content:flex-start !important; height:50px !important; min-height:50px !important; padding:0 14px !important; background:#161616 !important; border:1.5px solid #333333 !important; border-radius:12px !important; box-sizing:border-box !important; }
   .login-page .login-input-field.ant-input-affix-wrapper:focus, .login-page .login-input-field.ant-input-affix-wrapper-focused, .login-page .ant-input-affix-wrapper:focus, .login-page .ant-input-affix-wrapper-focused{ border-color:#d9f203 !important; box-shadow:0 0 0 3px rgba(217, 242, 3, 0.2) !important; }
   .login-page .login-input-icon, .login-page .ant-input-prefix{ display:flex !important; align-items:center !important; justify-content:center !important; margin-right:10px !important; margin-inline-end:10px !important; font-size:16px !important; color:#d9f203 !important; line-height:1 !important; height:100% !important; flex-shrink:0 !important; }
   .login-page .ant-input-suffix{ display:flex !important; align-items:center !important; justify-content:center !important; margin-left:10px !important; margin-inline-start:10px !important; font-size:16px !important; color:#888888 !important; line-height:1 !important; height:100% !important; flex-shrink:0 !important; }
   .login-page .ant-input-suffix .anticon{ color:#888888 !important; cursor:pointer !important; font-size:16px !important; }
-  .login-page .login-input-field input.ant-input, .login-page .ant-input-affix-wrapper input.ant-input{ display:block !important; width:100% !important; height:100% !important; background:transparent !important; color:#ffffff !important; font-size:14px !important; font-weight:500 !important; line-height:1 !important; padding:0 !important; margin:0 !important; border:none !important; box-shadow:none !important; }
-  .login-page .login-input-field input.ant-input::placeholder, .login-page .ant-input-affix-wrapper input.ant-input::placeholder{ color:#777777 !important; font-size:13.5px !important; line-height:1 !important; }
-  .login-page .ant-btn{ height:48px !important; font-size:14.5px !important; border-radius:10px !important; }
+  .login-page .login-input-field input.ant-input, .login-page .ant-input-affix-wrapper input.ant-input{ display:block !important; width:100% !important; height:100% !important; background:transparent !important; color:#ffffff !important; font-size:14px !important; font-weight:500 !important; line-height:1 !important; padding:0 !important; margin:0 !important; border:none !important; box-shadow:none !important; flex:1 !important; min-width:0 !important; }
+  .login-page .login-input-field input.ant-input::placeholder, .login-page .ant-input-affix-wrapper input.ant-input::placeholder{ color:#777777 !important; font-size:13px !important; line-height:1 !important; }
+  .login-page .ant-btn{ height:48px !important; font-size:14.5px !important; border-radius:10px !important; width:100% !important; max-width:100% !important; justify-content:center !important; display:inline-flex !important; align-items:center !important; }
+  .login-page .ant-divider{ margin:16px 0 !important; width:100% !important; }
 }
 
 /* Console Sections — Mobile inspired by Desktop (desktop untouched) */
