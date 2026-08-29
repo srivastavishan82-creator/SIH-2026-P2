@@ -5,6 +5,7 @@ export default defineConfig({
   base: '/SIH-2026-P2/',
   plugins: [react()],
   server: {
+    host: true, // Listen on all local IPs (fixes HMR on mobile devices)
     port: 5173,
     proxy: {
       '/api': {
