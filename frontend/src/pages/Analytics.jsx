@@ -35,7 +35,7 @@ function Analytics() {
 
   return (
     <div className="animate-fade-in-up analytics-section" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-      <Card bordered={false} className="saffron-card" style={{borderRadius:16, background: '#ffffff', border: '1px solid #000000'}} bodyStyle={{padding:'18px 20px'}}>
+      <Card bordered={false} style={{borderRadius:16, background: '#ffffff', border: '1px solid #000000'}} bodyStyle={{padding:'18px 20px'}}>
         <div style={{display:'flex', justifyContent:'space-between', gap:16, flexWrap:'wrap', alignItems:'center'}}>
           <div style={{flex:'1 1 320px', minWidth:280}}>
             <div style={{display:'flex', alignItems:'center', gap:10, flexWrap:'wrap'}}>
@@ -55,7 +55,7 @@ function Analytics() {
       <Row gutter={[12,12]} style={{alignItems:'stretch'}}>
         {kpis.map(k=>(
           <Col xs={12} lg={6} key={k.title} style={{display:'flex'}}>
-            <Card bordered={false} className="saffron-card" bodyStyle={{padding:'16px 18px', display:'flex', flexDirection:'column', justifyContent:'center', gap:6}} style={{ background: '#ffffff', border: '1px solid #000000', flex:1, display:'flex', flexDirection:'column' }}>
+            <Card bordered={false} bodyStyle={{padding:'16px 18px', display:'flex', flexDirection:'column', justifyContent:'center', gap:6}} style={{ background: '#ffffff', border: '1px solid #000000', flex:1, display:'flex', flexDirection:'column' }}>
               <div style={{fontSize:11, fontWeight:800, letterSpacing:'0.06em', color:'#000000', lineHeight:1}}> {k.title.toUpperCase()} </div>
               <div style={{fontSize:28, fontWeight:900, color:'#000000', lineHeight:1, fontFamily:'Host Grotesk, sans-serif'}}>{k.value}</div>
               <div style={{marginTop:4, display:'inline-flex', alignItems:'center', gap:6, background:k.deltaBg, border:'1px solid #000000', borderRadius:999, padding:'4px 10px', alignSelf:'flex-start'}}>
@@ -69,7 +69,7 @@ function Analytics() {
 
       <Row gutter={[12,12]} style={{display: 'flex', alignItems: 'stretch'}}>
         <Col xs={24} lg={12} style={{display:'flex'}}>
-          <Card title={<span style={{fontWeight:850, color:'#000000', fontSize:15}}>Throughput and Accuracy</span>} extra={<Tag style={{margin:0, borderRadius:999, background:'#ffffff', border:'1px solid #000000', color:'#000000', fontWeight:700, fontSize:11, padding:'4px 10px'}}>docs per day</Tag>} bordered={false} className="saffron-card" bodyStyle={{padding:'16px', display: 'flex', flexDirection: 'column', gap: 14}} style={{ background: '#ffffff', border: '1px solid #000000', flex:1, display:'flex', flexDirection:'column' }}>
+          <Card title={<span style={{fontWeight:850, color:'#000000', fontSize:15}}>Throughput and Accuracy</span>} extra={<Tag style={{margin:0, borderRadius:999, background:'#ffffff', border:'1px solid #000000', color:'#000000', fontWeight:700, fontSize:11, padding:'4px 10px'}}>docs per day</Tag>} bordered={false} bodyStyle={{padding:'16px', display: 'flex', flexDirection: 'column', gap: 14}} style={{ background: '#ffffff', border: '1px solid #000000', flex:1, display:'flex', flexDirection:'column' }}>
             
             <div style={{display:'flex', flexDirection:'column', gap: 10}}>
               <div style={{display:'grid', gridTemplateColumns:'repeat(7, 1fr)', gap: 8, textAlign:'center', background:'#ffffff', padding:'14px 10px', borderRadius:10, border:'1px solid #000000', alignItems:'end'}}>
@@ -107,7 +107,7 @@ function Analytics() {
         </Col>
 
         <Col xs={24} lg={12} style={{display:'flex'}}>
-          <Card title={<div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:12, flexWrap:'wrap'}}><span style={{fontWeight:850, color:'#000000', fontSize:15}}>District Ledger</span><span style={{fontSize:11, fontWeight:700, color:'#ffffff', background:'#000000', borderRadius:999, padding:'4px 8px', lineHeight:1}}>{totalProcessed} verified {totalPending} pending</span></div>} bordered={false} className="saffron-card" bodyStyle={{padding:'16px', display:'flex', flexDirection:'column', gap:12}} style={{ background: '#ffffff', border: '1px solid #000000', flex:1, display:'flex', flexDirection:'column' }}>
+          <Card title={<div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:12, flexWrap:'wrap'}}><span style={{fontWeight:850, color:'#000000', fontSize:15}}>District Ledger</span><span style={{fontSize:11, fontWeight:700, color:'#ffffff', background:'#000000', borderRadius:999, padding:'4px 8px', lineHeight:1}}>{totalProcessed} verified {totalPending} pending</span></div>} bordered={false} bodyStyle={{padding:'16px', display:'flex', flexDirection:'column', gap:12}} style={{ background: '#ffffff', border: '1px solid #000000', flex:1, display:'flex', flexDirection:'column' }}>
             <div style={{display:'flex', flexDirection:'column', gap:10}}>
               {districtData.map(d=>{
                 const pct = Math.round(d.processed/d.total*100);
