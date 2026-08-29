@@ -251,9 +251,9 @@ function App() {
       {/* User Profile Drawer */}
       <Drawer
         title={
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', justifyContent: 'space-between', width: '100%', paddingRight: 24 }}>
-            <span style={{ fontWeight: 850, letterSpacing: '-0.02em', color: '#ffffff', wordBreak: 'break-word' }}>My Profile • Revenue Administrator</span>
-            <Button onClick={() => { setProfileOpen(false); navigate('/profile'); }} style={{ borderRadius: 8, fontWeight: 700, background: '#d9f203', color: '#111111', border: 'none', padding: '4px 12px', height: 'auto' }}>Full Profile →</Button>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', justifyContent: 'space-between', boxSizing: 'border-box' }}>
+            <span style={{ fontWeight: 850, letterSpacing: '-0.02em', color: '#ffffff', wordBreak: 'break-word', flex: 1, minWidth: 200 }}>My Profile • Revenue Administrator</span>
+            <Button onClick={() => { setProfileOpen(false); navigate('/profile'); }} style={{ borderRadius: 8, fontWeight: 700, background: '#d9f203', color: '#111111', border: 'none', padding: '4px 10px', height: 'auto', flexShrink: 0 }}>Full Profile →</Button>
           </div>
         }
         open={profileOpen}
