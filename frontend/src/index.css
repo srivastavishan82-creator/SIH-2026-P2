@@ -1096,16 +1096,16 @@ h1,h2,h3,h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
   /* Intake */
   .intake-section .ant-row{ height:auto !important; }
   .intake-section .ant-row .ant-col{ height:auto !important; min-height:unset !important; }
-  .intake-section .saffron-card{ height:auto !important; min-height:unset !important; border: 1px solid #000000 !important; }
-  .intake-section .ant-card{ border: 1px solid #000000 !important; }
+  .intake-section .saffron-card{ height:auto !important; min-height:unset !important; border-color: #000000 !important; }
+  .intake-section .ant-card{ border-color: #000000 !important; }
   .intake-section div[style*="gridTemplateColumns:repeat(3"]{ grid-template-columns:1fr !important; gap:8px !important; }
   .intake-section div[style*="gridTemplateColumns:1fr 1fr"]{ grid-template-columns:1fr !important; }
   .intake-section .ant-card-body{ padding:14px !important; }
   /* Verification — stack and auto height */
   .verification-section .ant-row{ height:auto !important; align-items:flex-start !important; }
   .verification-section .ant-col{ height:auto !important; }
-  .verification-section .saffron-card{ height:auto !important; min-height:360px !important; border: 1px solid #000000 !important; }
-  .verification-section .ant-card{ border: 1px solid #000000 !important; }
+  .verification-section .saffron-card{ height:auto !important; min-height:360px !important; border-color: #000000 !important; }
+  .verification-section .ant-card{ border-color: #000000 !important; }
   .verification-section .queue-scroll .ant-table-body{ max-height:220px !important; }
   .verification-section .ant-card-body{ padding:12px !important; }
   /* Verified Records */
