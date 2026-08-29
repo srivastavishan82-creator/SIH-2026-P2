@@ -212,10 +212,10 @@ function App() {
                 colorPrimary: '#d9f203', 
                 colorBgContainer: '#ffffff', 
                 fontFamily: 'Inter, system-ui, sans-serif', 
-                colorText: '#0F172A', 
-                colorTextSecondary: '#64748B', 
+                colorText: '#000000', 
+                colorTextSecondary: '#000000', 
                 borderRadius: 10, 
-                colorBorderSecondary: '#E2E8F0' 
+                colorBorderSecondary: '#000000' 
               },
             }}>
             <Routes>
@@ -233,11 +233,11 @@ function App() {
             </Routes>
             </ConfigProvider>
 
-            <div style={{marginTop:30, padding:'14px 18px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12, color:'#64748B', fontSize:12.5, background:'#F8FAFC', borderRadius:12, border:'1px solid #E2E8F0'}}>
+            <div style={{marginTop:30, padding:'14px 18px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12, color:'#000000', fontSize:12.5, background:'#ffffff', borderRadius:12, border:'1px solid #000000'}}>
               <span>© 2026 Bhoomi AI — Land Record Digitization System</span>
               <span style={{display:'flex', gap:12, alignItems:'center'}}>
                 <span style={{display:'inline-flex', alignItems:'center', gap:6}}>
-                  <span style={{width:8, height:8, borderRadius:999, background:'#10B981', display:'inline-block'}} /> 
+                  <span style={{width:8, height:8, borderRadius:999, background:'#d9f203', border:'1px solid #000000', display:'inline-block'}} /> 
                   Neural Engine Online
                 </span>
                 <span>•</span>
